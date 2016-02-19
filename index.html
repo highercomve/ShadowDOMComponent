@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Prueba de loquera que estoy haciendo</title>
+  </head>
+  <body>
+
+    <script src="index.js"></script>
+    <script>
+      (function(window, document, CP) {
+        var state = {
+          counter: 1
+        }
+
+        var HelloWorld = CP({
+          elementName: 'hello-world',
+          getInitialState () {
+            return state
+          },
+          onMount () {
+            this.interval = setInterval(() => {
+              this.setState({counter: this.state.counter + 1})
+            }, 1000 )
+          },
+          onUnMount () {
+            clearInterval(this.interval)
+          },
+          template: `
+          <div id="container">
+          <h2>Counter With Shadow </h2>
+          <content></content>
+          </div>
+          `,
+          view: [
+            "<h1>${this.state.counter}</h1>",
+            "<button>Increment counter</button>"
+          ].join(''),
+          events: [
+            {
+              selector: 'button',
+              type: 'click',
+              callback: h1Callback
+            }
+          ]
+        })
+
+        function h1Callback(e) {
+          HelloWorld.setState({counter: 1})
+        }
+
+        document.body.appendChild(HelloWorld)
+
+      })(window, document, ComponentFactory)
+    </script>
+  </body>
+</html>
