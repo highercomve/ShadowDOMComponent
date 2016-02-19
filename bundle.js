@@ -2376,7 +2376,6 @@ function validateRequiredFields(options) {
 
 function viewCompile(view) {
   if (typeof view === "string") {
-    console.log('view is string');
     return new Function("return `" + view + "`");
   } else if (typeof view === "function") {
     return function compile() {
@@ -2485,8 +2484,7 @@ function createElement(tagName) {
   var element = document.createElement(tagName);
   Object.assign(element, options);
   if (typeof element.setState !== 'undefined') {
-    console.log(element.setState(state));
-    element.render();
+    element.setState(state);
   }
   if (typeof child === 'string') {
     child = document.createTextNode(child);
