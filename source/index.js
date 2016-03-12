@@ -18,23 +18,22 @@ function createElement(tagName, key = null, state = {}, options = {}, child) {
   Object.keys(options).forEach((option) => {
     attr(option, options[option])
   })
-  elementOpenEnd(tagName)
-  if (typeof child === 'string') {
-    text(child)
+  let element = elementOpenEnd(tagName)
+  if (typeof element.setState !== 'undefined') {
+    element.setState(state)
   }
   if (typeof child !== 'undefined') {
     if (Array.isArray(child)) {
       child.forEach(function(appendableView) {
-        appendableView
+        appendableView()
       })
+    } else if (typeof child === 'string') {
+      text(child)
     } else {
-      child
+      child()
     }
   }
-  let element = elementClose(tagName)
-  if (typeof element.setState !== 'undefined') {
-    element.setState(state)
-  }
+  elementClose(tagName)
   return element
 }
 
@@ -45,9 +44,9 @@ function ComponentFactory (object = {}) {
 }
 
 function renderDOM (component, tag, state = {}) {
-  patch(tag, function() {
-    Shaco.createElement(component, null, state)
-  })
+  patch(tag, function(data) {
+    Shaco.createElement(component, null, data)
+  }, state)
 }
 
 var Shaco = {

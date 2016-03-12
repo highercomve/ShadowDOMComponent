@@ -26,9 +26,7 @@ function validateRequiredFields (options) {
 function renderFactory(view) {
   return {
     render () {
-      patch(this, function() {
-        view.bind(this)()
-      }.bind(this))
+      view.bind(this)()
     }
   }
 }

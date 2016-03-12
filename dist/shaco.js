@@ -3641,9 +3641,7 @@ function validateRequiredFields(options) {
 function renderFactory(view) {
   return {
     render: function render() {
-      (0, _incrementalDom.patch)(this, function () {
-        view.bind(this)();
-      }.bind(this));
+      view.bind(this)();
     }
   };
 }
@@ -3730,23 +3728,22 @@ function createElement(tagName) {
   Object.keys(options).forEach(function (option) {
     (0, _incrementalDom.attr)(option, options[option]);
   });
-  (0, _incrementalDom.elementOpenEnd)(tagName);
-  if (typeof child === 'string') {
-    (0, _incrementalDom.text)(child);
+  var element = (0, _incrementalDom.elementOpenEnd)(tagName);
+  if (typeof element.setState !== 'undefined') {
+    element.setState(state);
   }
   if (typeof child !== 'undefined') {
     if (Array.isArray(child)) {
       child.forEach(function (appendableView) {
-        appendableView;
+        appendableView();
       });
+    } else if (typeof child === 'string') {
+      (0, _incrementalDom.text)(child);
     } else {
-      child;
+      child();
     }
   }
-  var element = (0, _incrementalDom.elementClose)(tagName);
-  if (typeof element.setState !== 'undefined') {
-    element.setState(state);
-  }
+  (0, _incrementalDom.elementClose)(tagName);
   return element;
 }
 
@@ -3761,9 +3758,9 @@ function ComponentFactory() {
 function renderDOM(component, tag) {
   var state = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-  (0, _incrementalDom.patch)(tag, function () {
-    Shaco.createElement(component, null, state);
-  });
+  (0, _incrementalDom.patch)(tag, function (data) {
+    Shaco.createElement(component, null, data);
+  }, state);
 }
 
 var Shaco = {
