@@ -55,4 +55,4 @@ The event object will be used to delegate listeners on the Component. This is th
 
 ### Example
 
-This is an example of how to use Shaco, see the example folder or the TODO example in this (Repository)[https://github.com/highercomve/shaco-todo]
+This is an example of how to use Shaco, see the example folder or the TODO example in this [Repository](https://github.com/highercomve/shaco-todo)
