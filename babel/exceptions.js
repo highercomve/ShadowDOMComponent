@@ -1,8 +1,3 @@
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 var ComponentExceptions = {
   WITHOUT_TEMPLATE: {
     message: 'The new component need a Template',
@@ -20,6 +15,6 @@ var ComponentExceptions = {
     message: "The attribute view must be a string or a funtion.",
     name: "ComponentViewMustBeAStringOrFunction"
   }
-};
+}
 
-exports.default = ComponentExceptions;
+export default ComponentExceptions
