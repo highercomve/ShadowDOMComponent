@@ -25,23 +25,33 @@ function validateRequiredFields (options) {
 
 function renderFactory(view) {
   return {
-    render () {
-      let result = view.bind(this)()
-      if (typeof result === 'function') {
-        result.bind(this)()
+    render: function render(reRender) {
+      if (!reRender) {
+        renderElement(view, this)
+      } else {
+        patch(this, function(scope) {
+          renderElement(view, scope)
+        }, this)
       }
     }
+  };
+}
+
+function renderElement (view, scope) {
+  var result = view.bind(scope)();
+  if (typeof result === 'function') {
+    result.bind(scope)();
   }
 }
 
-function setStateFactory () {
+function setStateFactory() {
   return {
-    setState (newState) {
-      this.state = Object.assign({}, this.state, newState)
-      this.render()
-      return this.state
+    setState: function setState(newState, force = false) {
+      this.state = Object.assign({}, this.state, newState);
+      this.render(force);
+      return this.state;
     }
-  }
+  };
 }
 
 function TagFactory (options = {}) {

@@ -39,20 +39,32 @@ function validateRequiredFields(options) {
 
 function renderFactory(view) {
   return {
-    render: function render() {
-      var result = view.bind(this)();
-      if (typeof result === 'function') {
-        result.bind(this)();
+    render: function render(reRender) {
+      if (!reRender) {
+        renderElement(view, this);
+      } else {
+        (0, _incrementalDom.patch)(this, function (scope) {
+          renderElement(view, scope);
+        }, this);
       }
     }
   };
 }
 
+function renderElement(view, scope) {
+  var result = view.bind(scope)();
+  if (typeof result === 'function') {
+    result.bind(scope)();
+  }
+}
+
 function setStateFactory() {
   return {
     setState: function setState(newState) {
+      var force = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+
       this.state = Object.assign({}, this.state, newState);
-      this.render();
+      this.render(force);
       return this.state;
     }
   };
