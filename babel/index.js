@@ -18,22 +18,27 @@ function createElement(tagName, key = null, state = {}, options = {}, child) {
     attr(option, options[option])
   })
   let element = elementOpenEnd(tagName)
+
   if (typeof element.setState !== 'undefined') {
-    element.setState(state)
-  }
-  if (typeof child !== 'undefined') {
-    if (Array.isArray(child)) {
-      child.forEach(function(appendableView) {
-        appendableView()
-      })
-    } else if (typeof child === 'string') {
-      text(child)
-    } else {
-      child()
-    }
+    element.setState(Object.assign({}, state, { child: child }))
+  } else {
+    renderChild(child)
   }
   elementClose(tagName)
   return element
+}
+
+function renderChild (child) {
+  if (typeof child === 'undefined') { return }
+  if (typeof child === 'string') {
+    return text(child.trim())
+  } else if (typeof child === 'function') {
+    return child()
+  } else if (Array.isArray(child)) {
+    child.forEach(renderChild)
+  } else {
+    return child
+  }
 }
 
 function ComponentFactory (object = {}) {

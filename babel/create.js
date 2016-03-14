@@ -26,7 +26,10 @@ function validateRequiredFields (options) {
 function renderFactory(view) {
   return {
     render () {
-      view.bind(this)()
+      let result = view.bind(this)()
+      if (typeof result === 'function') {
+        result.bind(this)()
+      }
     }
   }
 }

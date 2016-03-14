@@ -40,7 +40,10 @@ function validateRequiredFields(options) {
 function renderFactory(view) {
   return {
     render: function render() {
-      view.bind(this)();
+      var result = view.bind(this)();
+      if (typeof result === 'function') {
+        result.bind(this)();
+      }
     }
   };
 }
