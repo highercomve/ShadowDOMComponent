@@ -1323,7 +1323,8 @@ function Builder(tagName, options) {
     });
     return new tagNameElement();
   } catch (e) {
-    return document.createElement(TagName);
+    console.log(e);
+    return document.createElement(tagName);
   }
 }
 
