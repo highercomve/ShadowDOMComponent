@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+require('document-register-element');
+
 var _incrementalDom = require('incremental-dom');
 
 var _create = require('./create');
@@ -63,7 +65,7 @@ function ComponentFactory() {
 function renderDOM(component, tag) {
   var state = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
-  (0, _incrementalDom.patch)(tag, function (data) {
+  return (0, _incrementalDom.patch)(tag, function (data) {
     Shaco.createElement(component, null, data);
   }, state);
 }

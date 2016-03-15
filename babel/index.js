@@ -1,3 +1,4 @@
+import 'document-register-element'
 import {
   elementOpenStart,
   elementOpenEnd,
@@ -48,7 +49,7 @@ function ComponentFactory (object = {}) {
 }
 
 function renderDOM (component, tag, state = {}) {
-  patch(tag, function(data) {
+  return patch(tag, function(data) {
     Shaco.createElement(component, null, data)
   }, state)
 }

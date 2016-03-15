@@ -3,6 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _shadowdomShim = require('./shadowdom-shim');
+
+var _shadowdomShim2 = _interopRequireDefault(_shadowdomShim);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var DefaultCallbacks = {
   detachedCallback: function detachedCallback() {
     this.onUnMount();
@@ -12,16 +19,27 @@ var DefaultCallbacks = {
     console.log('Change attibute');
   },
   onMount: function onMount() {},
-  onUnMount: function onUnMount() {}
+  onUnMount: function onUnMount() {},
+  createdCallback: function createdCallback() {
+    if (typeof this.createShadowRoot === 'function') {
+      this.shadow = this.createShadowRoot();
+      this.shadow.innerHTML = this.template;
+    } else {
+      _shadowdomShim2.default.writeStyle(this.template, this.nodeName);
+    }
+  }
 };
 
 function createDefaultCallbacks(callbacks) {
-  return Object.assign(DefaultCallbacks, {
-    createdCallback: function createdCallback() {
-      this.shadow = this.createShadowRoot();
-      this.shadow.innerHTML = this.template;
-    }
-  }, callbacks);
+  return Object.assign({}, createObjDescriptor(DefaultCallbacks), createObjDescriptor(callbacks));
+}
+
+function createObjDescriptor(obj) {
+  var objDescriptor = {};
+  Object.keys(obj).forEach(function (prop) {
+    objDescriptor[prop] = { value: obj[prop] };
+  });
+  return objDescriptor;
 }
 
 function SetListeners() {
@@ -29,22 +47,30 @@ function SetListeners() {
 
   return {
     attachedCallback: function attachedCallback() {
-      console.log('Element attach', this);
-      this.onMount();
-      events.forEach(function (event) {
-        this.addEventListener(event.type, function (e) {
-          if (e.target && e.target.matches(event.selector)) {
-            event.callback.bind(this)(e);
-          }
+      try {
+        console.log('Element attach', this);
+        this.onMount();
+        events.forEach(function (event) {
+          this.addEventListener(event.type, function (e) {
+            if (e.target && e.target.matches(event.selector)) {
+              event.callback.bind(this)(e);
+            }
+          }.bind(this));
         }.bind(this));
-      }.bind(this));
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 }
 
 function Builder(tagName, options) {
-  var TagPrototype = Object.create(HTMLElement.prototype);
-  Object.assign(TagPrototype, createDefaultCallbacks(options), SetListeners(options.events));
+  var optionsDescriptor = Object.assign({}, createDefaultCallbacks(options), createObjDescriptor(SetListeners(options.events)));
+  optionsDescriptor.state = Object.assign({}, optionsDescriptor.state, {
+    enumerable: true,
+    writable: true
+  });
+  var TagPrototype = Object.create(HTMLElement.prototype, optionsDescriptor);
   try {
     var tagNameElement = document.registerElement(tagName, {
       prototype: TagPrototype
