@@ -48,9 +48,30 @@ function ComponentFactory (object = {}) {
   return tag
 }
 
+function isNotChrome () {
+  return navigator.userAgent.toLowerCase().indexOf('chrome') === -1
+}
+
 function renderDOM (component, tag, state = {}) {
+  let tries = 1
+  let interval
+  if (!isNotChrome()) {
+    renderComponent(component, tag, state)
+  } else {
+    interval = setInterval(function () {
+      console.log('inside interval')
+      renderComponent(component, tag, state)
+      tries += 1
+      if (tries > 5) {
+        clearInterval(interval)
+      }
+    }, 10);
+  }
+}
+
+function renderComponent (component, tag, state) {
   return patch(tag, function(data) {
-    Shaco.createElement(component, null, data)
+    return Shaco.createElement(component, null, data)
   }, state)
 }
 

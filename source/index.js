@@ -62,11 +62,32 @@ function ComponentFactory() {
   return tag;
 }
 
+function isNotChrome() {
+  return navigator.userAgent.toLowerCase().indexOf('chrome') === -1;
+}
+
 function renderDOM(component, tag) {
   var state = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
+  var tries = 1;
+  var interval = void 0;
+  if (!isNotChrome()) {
+    renderComponent(component, tag, state);
+  } else {
+    interval = setInterval(function () {
+      console.log('inside interval');
+      renderComponent(component, tag, state);
+      tries += 1;
+      if (tries > 5) {
+        clearInterval(interval);
+      }
+    }, 10);
+  }
+}
+
+function renderComponent(component, tag, state) {
   return (0, _incrementalDom.patch)(tag, function (data) {
-    Shaco.createElement(component, null, data);
+    return Shaco.createElement(component, null, data);
   }, state);
 }
 
