@@ -70,6 +70,22 @@ function setStateFactory() {
   };
 }
 
+function renderChildFactory() {
+  return {
+    renderChildren: function renderChildren() {
+      var child = arguments.length <= 0 || arguments[0] === undefined ? this.state.child : arguments[0];
+
+      if (typeof child === 'string') {
+        (0, _incrementalDom.text)(child);
+      } else if (typeof child === 'function') {
+        child();
+      } else if (Array.isArray(child)) {
+        child.forEach(this.renderChildren);
+      }
+    }
+  };
+}
+
 function TagFactory() {
   var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
@@ -77,7 +93,7 @@ function TagFactory() {
   validateRequiredFields(options);
   var CloneOptions = Object.assign({}, { name: options.elementName });
   delete Object.elementName;
-  Object.assign(options, renderFactory(options.view), setStateFactory());
+  Object.assign(options, renderFactory(options.view), setStateFactory(), renderChildFactory());
   return (0, _builder2.default)(CloneOptions.name, options);
 }
 

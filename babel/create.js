@@ -1,6 +1,6 @@
 import Builder from './builder'
 import ComponentExceptions from './exceptions'
-import { patch } from 'incremental-dom'
+import { patch, text } from 'incremental-dom'
 
 if (!Array.isArray) {
   Array.isArray = function(arg) {
@@ -54,12 +54,26 @@ function setStateFactory() {
   };
 }
 
+function renderChildFactory () {
+  return {
+    renderChildren (child = this.state.child) {
+      if (typeof child  === 'string') {
+        text(child)
+      } else if (typeof child === 'function') {
+        child()
+      } else if (Array.isArray(child)) {
+        child.forEach(this.renderChildren)
+      }
+    }
+  }
+}
+
 function TagFactory (options = {}) {
   // validate Presence of necesary API elements
   validateRequiredFields(options)
   var CloneOptions = Object.assign({}, {name : options.elementName})
   delete Object.elementName
-  Object.assign(options, renderFactory(options.view), setStateFactory())
+  Object.assign(options, renderFactory(options.view), setStateFactory(), renderChildFactory())
   return Builder(CloneOptions.name, options)
 }
 
