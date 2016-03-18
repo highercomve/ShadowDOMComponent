@@ -59,7 +59,6 @@ function renderDOM (component, tag, state = {}) {
     renderComponent(component, tag, state)
   } else {
     interval = setInterval(function () {
-      console.log('inside interval')
       renderComponent(component, tag, state)
       tries += 1
       if (tries > 5) {

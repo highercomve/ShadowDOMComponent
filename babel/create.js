@@ -10,16 +10,16 @@ if (!Array.isArray) {
 
 function validateRequiredFields (options) {
   if (!options.hasOwnProperty('template')) {
-    throw ComponentExceptions.WITHOUT_TEMPLATE
+    throw ComponentExceptions.WITHOUT_TEMPLATE()
   }
   if (!options.hasOwnProperty('view')) {
-    throw ComponentExceptions.WITHOUT_VIEW
+    throw ComponentExceptions.WITHOUT_VIEW()
   }
   if (!options.hasOwnProperty('elementName')) {
-    throw ComponentExceptions.WITHOUT_TAGNAME
+    throw ComponentExceptions.WITHOUT_TAGNAME()
   }
   if (typeof options.view != "string" && typeof options.view != "function") {
-    throw ComponentExceptions.VIEW_MUST_BE_STRING_OR_FUNTION
+    throw ComponentExceptions.VIEW_MUST_BE_STRING_OR_FUNTION()
   }
 }
 

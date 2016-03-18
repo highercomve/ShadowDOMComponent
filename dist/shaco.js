@@ -1390,16 +1390,16 @@ if (!Array.isArray) {
 
 function validateRequiredFields(options) {
   if (!options.hasOwnProperty('template')) {
-    throw _exceptions2.default.WITHOUT_TEMPLATE;
+    throw _exceptions2.default.WITHOUT_TEMPLATE();
   }
   if (!options.hasOwnProperty('view')) {
-    throw _exceptions2.default.WITHOUT_VIEW;
+    throw _exceptions2.default.WITHOUT_VIEW();
   }
   if (!options.hasOwnProperty('elementName')) {
-    throw _exceptions2.default.WITHOUT_TAGNAME;
+    throw _exceptions2.default.WITHOUT_TAGNAME();
   }
   if (typeof options.view != "string" && typeof options.view != "function") {
-    throw _exceptions2.default.VIEW_MUST_BE_STRING_OR_FUNTION;
+    throw _exceptions2.default.VIEW_MUST_BE_STRING_OR_FUNTION();
   }
 }
 
@@ -1456,21 +1456,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var ComponentExceptions = {
-  WITHOUT_TEMPLATE: {
-    message: 'The new component need a Template',
-    name: 'ComponentWithOutTemplate'
+  WITHOUT_TEMPLATE: function WITHOUT_TEMPLATE() {
+    return new Error('ComponentWithOutTemplate, The new component need a Template');
   },
-  WITHOUT_VIEW: {
-    message: 'The new component must have a view rendering',
-    name: 'ComponentWithOutView'
+  WITHOUT_VIEW: function WITHOUT_VIEW() {
+    return new Error('ComponentWithOutView, The new component must have a view rendering');
   },
-  WITHOUT_TAGNAME: {
-    message: "You can't create a component without the tagName, you must pass that to ComponentFactory",
-    name: 'ComponentWithPutTagName'
+  WITHOUT_TAGNAME: function WITHOUT_TAGNAME() {
+    new Error('ComponentWithPutTagName, You can\'t create a component without the tagName, you must pass that to ComponentFactory');
   },
-  VIEW_MUST_BE_STRING_OR_FUNTION: {
-    message: "The attribute view must be a string or a funtion.",
-    name: "ComponentViewMustBeAStringOrFunction"
+  VIEW_MUST_BE_STRING_OR_FUNTION: function VIEW_MUST_BE_STRING_OR_FUNTION() {
+    new Error("ComponentViewMustBeAStringOrFunction The attribute view must be a string or a funtion.");
   }
 };
 
@@ -1543,11 +1539,31 @@ function ComponentFactory() {
   return tag;
 }
 
+function isNotChrome() {
+  return navigator.userAgent.toLowerCase().indexOf('chrome') === -1;
+}
+
 function renderDOM(component, tag) {
   var state = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
+  var tries = 1;
+  var interval = void 0;
+  if (!isNotChrome()) {
+    renderComponent(component, tag, state);
+  } else {
+    interval = setInterval(function () {
+      renderComponent(component, tag, state);
+      tries += 1;
+      if (tries > 5) {
+        clearInterval(interval);
+      }
+    }, 10);
+  }
+}
+
+function renderComponent(component, tag, state) {
   return (0, _incrementalDom.patch)(tag, function (data) {
-    Shaco.createElement(component, null, data);
+    return Shaco.createElement(component, null, data);
   }, state);
 }
 

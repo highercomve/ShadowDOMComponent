@@ -24,16 +24,16 @@ if (!Array.isArray) {
 
 function validateRequiredFields(options) {
   if (!options.hasOwnProperty('template')) {
-    throw _exceptions2.default.WITHOUT_TEMPLATE;
+    throw _exceptions2.default.WITHOUT_TEMPLATE();
   }
   if (!options.hasOwnProperty('view')) {
-    throw _exceptions2.default.WITHOUT_VIEW;
+    throw _exceptions2.default.WITHOUT_VIEW();
   }
   if (!options.hasOwnProperty('elementName')) {
-    throw _exceptions2.default.WITHOUT_TAGNAME;
+    throw _exceptions2.default.WITHOUT_TAGNAME();
   }
   if (typeof options.view != "string" && typeof options.view != "function") {
-    throw _exceptions2.default.VIEW_MUST_BE_STRING_OR_FUNTION;
+    throw _exceptions2.default.VIEW_MUST_BE_STRING_OR_FUNTION();
   }
 }
 
