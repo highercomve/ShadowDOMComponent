@@ -3,7 +3,6 @@ import ShadowDOMShim from './shadowdom-shim'
 const DefaultCallbacks = {
   detachedCallback() {
     this.onUnMount()
-    console.log('Was detached')
   },
   attributeChangedCallback() {
     console.log('Change attibute')
@@ -36,7 +35,6 @@ function SetListeners(events = []) {
   return {
     attachedCallback () {
       try {
-        console.log('Element attach', this)
         this.onMount()
         events.forEach(function(event) {
           this.addEventListener(event.type, function(e) {

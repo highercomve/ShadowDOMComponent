@@ -13,7 +13,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var DefaultCallbacks = {
   detachedCallback: function detachedCallback() {
     this.onUnMount();
-    console.log('Was detached');
   },
   attributeChangedCallback: function attributeChangedCallback() {
     console.log('Change attibute');
@@ -48,7 +47,6 @@ function SetListeners() {
   return {
     attachedCallback: function attachedCallback() {
       try {
-        console.log('Element attach', this);
         this.onMount();
         events.forEach(function (event) {
           this.addEventListener(event.type, function (e) {
