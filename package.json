@@ -1,6 +1,6 @@
 {
   "name": "shadow-component",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "This is a test implementation of components with shadow dom and full template rendering of changes of state",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/highercomve/shadow-component.git"
+    "url": "git+https://github.com/highercomve/ShadowDOMComponent.git"
   },
   "keywords": [
     "shadow",
@@ -23,7 +23,7 @@
   "author": "Sergio Marin",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/highercomve/shadow-component/issues"
+    "url": "https://github.com/highercomve/ShadowDOMComponent/issues"
   },
   "babel": {
     "presets": [
@@ -42,7 +42,7 @@
       ]
     ]
   },
-  "homepage": "https://github.com/highercomve/shadow-component#readme",
+  "homepage": "https://github.com/highercomve/ShadowDOMComponent#readme",
   "devDependencies": {
     "babel-cli": "^6.6.5",
     "babel-core": "^6.7.2",
@@ -54,6 +54,6 @@
   },
   "dependencies": {
     "document-register-element": "^0.5.4",
-    "incremental-dom": "^0.4.1"
+    "incremental-dom": "^0.5.1"
   }
 }
