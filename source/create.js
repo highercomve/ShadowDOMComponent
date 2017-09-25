@@ -61,7 +61,7 @@ function renderElement(view, scope) {
 function setStateFactory() {
   return {
     setState: function setState(newState) {
-      var force = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+      var force = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
       this.state = Object.assign({}, this.state, newState);
       this.render(force);
@@ -73,7 +73,7 @@ function setStateFactory() {
 function renderChildFactory() {
   return {
     renderChildren: function renderChildren() {
-      var child = arguments.length <= 0 || arguments[0] === undefined ? this.state.child : arguments[0];
+      var child = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.state.child;
 
       if (typeof child === 'string') {
         (0, _incrementalDom.text)(child);
@@ -87,7 +87,7 @@ function renderChildFactory() {
 }
 
 function TagFactory() {
-  var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
   // validate Presence of necesary API elements
   validateRequiredFields(options);

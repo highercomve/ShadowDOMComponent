@@ -10,7 +10,8 @@ import {
 import TagFactory from './create'
 
 const DefaultComponentObject = {
-  state: {}
+  state: {},
+  template: `<content></content>`
 }
 
 function createElement(tagName, key = null, state = {}, options = {}, child) {

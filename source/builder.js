@@ -42,7 +42,7 @@ function createObjDescriptor(obj) {
 }
 
 function SetListeners() {
-  var events = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+  var events = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
   return {
     attachedCallback: function attachedCallback() {

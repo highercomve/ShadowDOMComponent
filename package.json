@@ -1,11 +1,12 @@
 {
   "name": "shadow-component",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "This is a test implementation of components with shadow dom and full template rendering of changes of state",
   "main": "index.js",
   "scripts": {
     "build": "babel babel -d source",
-    "watch": "babel -w babel -d source",
+    "watch": "babel -w babel -d source", 
+    "prebuild-browser": "npm run build",
     "build-browser": "browserify source/index.js --standalone Shaco | uglifyjs -c > ./dist/shacho.min.js",
     "watch-browser": "watchify source/index.js -o ./dist/shaco.js --standalone Shaco -v",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -49,7 +50,8 @@
     "babel-preset-es2015": "^6.5.0",
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
-    "uglifyjs": "^2.4.10",
+    "uglify-js": "^3.1.2",
+    "uglifyjs": "^2.4.11",
     "watchify": "^3.7.0"
   },
   "dependencies": {

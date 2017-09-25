@@ -26,11 +26,13 @@ function extractContent(template) {
 }
 
 function writeStyle() {
-  var template = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
-  var tagName = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
+  var template = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var tagName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
   var styleElement = extractStyle(template, tagName);
-  document.head.appendChild(styleElement);
+  if (styleElement) {
+    document.head.appendChild(styleElement);
+  }
   return styleElement;
 }
 

@@ -15,13 +15,14 @@ var _create2 = _interopRequireDefault(_create);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DefaultComponentObject = {
-  state: {}
+  state: {},
+  template: '<content></content>'
 };
 
 function createElement(tagName) {
-  var key = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
-  var state = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-  var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
+  var key = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  var state = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
   var child = arguments[4];
 
   (0, _incrementalDom.elementOpenStart)(tagName, key);
@@ -55,7 +56,7 @@ function renderChild(child) {
 }
 
 function ComponentFactory() {
-  var object = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var object = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
   object = Object.assign({}, DefaultComponentObject, object);
   var tag = (0, _create2.default)(object);
@@ -67,7 +68,7 @@ function isNotChrome() {
 }
 
 function renderDOM(component, tag) {
-  var state = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+  var state = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
   var tries = 1;
   var interval = void 0;

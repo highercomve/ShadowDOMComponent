@@ -25,7 +25,9 @@ function extractContent (template) {
 
 function writeStyle (template = '', tagName = '') {
   var styleElement = extractStyle(template, tagName)
-  document.head.appendChild(styleElement)
+  if (styleElement) {
+    document.head.appendChild(styleElement)
+  }
   return styleElement
 }
 
