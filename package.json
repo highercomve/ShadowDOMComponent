@@ -51,7 +51,6 @@
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
     "uglify-js": "^3.1.2",
-    "uglifyjs": "^2.4.11",
     "watchify": "^3.7.0"
   },
   "dependencies": {
